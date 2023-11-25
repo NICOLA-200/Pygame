@@ -72,3 +72,40 @@ def draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_hea
         pygame.draw.rect(WIN, YELLOW, bullet)
 
     pygame.display.update()
+
+    def yellow_handle_movement(yellow, yellow_bullets):
+    # if keys_pressed[pygame.K_a] and yellow.x - VEL > 0:  # LEFT
+    #     yellow.x -= VEL
+    # if keys_pressed[pygame.K_d] and yellow.x + VEL + yellow.width < BORDER.x:  # RIGHT
+    #     yellow.x += VEL
+    # if keys_pressed[pygame.K_w] and yellow.y - VEL > 0:  # UP
+    #     yellow.y -= VEL
+    # if keys_pressed[pygame.K_s] and yellow.y + VEL + yellow.height < HEIGHT - 15:  # DOWN
+    #     yellow.y += VEL
+     if ser.in_waiting > 0:
+        data = ser.readline().decode('utf-8').strip()
+        joystick_data = data.split(' ')
+        if len(joystick_data) == 3:  # Assuming the format is "x y button_state"
+            joystick_x = int(joystick_data[0])
+            joystick_y = int(joystick_data[1])
+            button_state = joystick_data[2]
+            if joystick_x < 400:  # Move left
+                if yellow.x - VEL > 0:
+                    yellow.x -= VEL
+            elif joystick_x > 600:  # Move right
+                if yellow.x + VEL + yellow.width < BORDER.x:
+                    yellow.x += VEL
+            if joystick_y < 400:  # Move up
+                if yellow.y - VEL > 0:
+                    yellow.y -= VEL
+            elif joystick_y > 600:  # Move down
+                if yellow.y + VEL + yellow.height < HEIGHT - 15:
+                    yellow.y += VEL
+            if button_state == "MIDDLE_CLICKED" and len(yellow_bullets) < MAX_BULLETS:
+                # Perform an action when the middle button is clicked
+                # For example, shoot a bullet
+                BULLET_FIRE_SOUND.play()
+                bullet = pygame.Rect(
+                    yellow.x + yellow.width, yellow.y + yellow.height // 2 - 2, 10, 5)
+                yellow_bullets.append(bullet)
+
