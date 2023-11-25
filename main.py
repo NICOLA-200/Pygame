@@ -136,3 +136,39 @@ def handle_bullets(yellow_bullets, red_bullets, yellow, red):
             red_bullets.remove(bullet)
         elif bullet.x < 0:
             red_bullets.remove(bullet)
+
+def draw_winner(text):
+    draw_text = WINNER_FONT.render(text, 1, WHITE)
+    WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width() /
+                         2, HEIGHT/2 - draw_text.get_height()/2))
+    pygame.display.update()
+    pygame.time.delay(5000)
+
+
+def main():
+    red = pygame.Rect(700, 300, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
+    yellow = pygame.Rect(100, 300, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
+
+    red_bullets = []
+    yellow_bullets = []
+
+    red_health = 10
+    yellow_health = 10
+
+    clock = pygame.time.Clock()
+    run = True
+    while run:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+
+            if event.type == pygame.KEYDOWN:
+                # if event.key == pygame.K_LCTRL and len(yellow_bullets) < MAX_BULLETS:
+                #     BULLET_FIRE_SOUND.play()
+                #     bullet = pygame.Rect(
+                #         yellow.x + yellow.width, yellow.y + yellow.height//2 - 2, 10, 5)
+                    
+                #     yellow_bullets.append(bullet)
+                    
